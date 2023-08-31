@@ -204,7 +204,7 @@ poetry.toml
 
 # End of https://www.toptal.com/developers/gitignore/api/python,linux,visualstudiocode
 todo
-.py
+testing.py
 tes.py
 test.py
 todo.md
