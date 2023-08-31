@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="UTF-8"?><sqlb_project><db path="/home/pedram/MovieBot/database.db" readonly="0" foreign_keys="" case_sensitive_like="" temp_store="" wal_autocheckpoint="" synchronous=""/><attached/><window><main_tabs open="structure browser pragmas query" current="1"/></window><tab_structure><column_width id="0" width="300"/><column_width id="1" width="0"/><column_width id="2" width="141"/><column_width id="3" width="2269"/><column_width id="4" width="0"/></tab_structure><tab_browse><current_table name="0,0:"/><default_encoding codec=""/><browse_table_settings/></tab_browse><tab_sql><sql name="SQL 1">--  DELETE FROM movies WHERE id = &quot;tt6217926&quot;;
+--   DELETE FROM media WHERE imdbID = &quot;tt6217926&quot;
+-- DELETE FROM movies WHERE id = 'tt0135032';
+DELETE FROM idmap WHERE file_id is NOT NULL;
+
+</sql><current_tab id="0"/></tab_sql></sqlb_project>
