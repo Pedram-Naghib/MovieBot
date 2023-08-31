@@ -26,7 +26,7 @@ def getMessage():
 @server.route("/")
 def webhook():
     bot.remove_webhook()
-    bot.set_webhook(url='https://moviebotdream.herokuapp.com/' + TOKEN)
+    bot.set_webhook(url='https://moviebotdream-8d82606f47a7.herokuapp.com/' + TOKEN)
     return "!", 200
 
 
