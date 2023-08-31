@@ -130,7 +130,7 @@ def award_data(_id, title):
 
 #    0      1      2      3       4        5        6        7      8      9        10    11
 # (Title, imdbID, Year, Genre, Runtime, Director, Writers, Actors, Plot, Ratings, Poster, Type)
-@bot.inline_handler(lambda query: True, bot_admin=True)
+@bot.inline_handler(lambda query: True, bot_vip=True) #! not admins for vips, also show smth for none vips
 def query_movies(inline_query: types.InlineQuery):
     queries = []
     id = 1

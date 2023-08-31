@@ -4,7 +4,7 @@ from telebot.types import (
     InlineKeyboardButton,
     InlineKeyboardMarkup,
     Message,
-    CallbackQuery
+    InlineQuery
 )
 import glob
 import os
@@ -194,6 +194,14 @@ class IsAdmin(custom_filters.SimpleCustomFilter):
         return message.chat.id in ADMINS
 
 
+class IsVIP(custom_filters.SimpleCustomFilter):
+    key='bot_vip'
+    @staticmethod
+    def check(inline_query: InlineQuery):
+        return inline_query.from_user.id in ADMINS #ToDO: in vips not in admins
+
+
 bot.add_custom_filter(IsAdmin())
+bot.add_custom_filter(IsVIP())
 
 # bot.setup_middleware(Middleware())
