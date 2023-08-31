@@ -130,7 +130,7 @@ def award_data(_id, title):
 
 #    0      1      2      3       4        5        6        7      8      9        10    11
 # (Title, imdbID, Year, Genre, Runtime, Director, Writers, Actors, Plot, Ratings, Poster, Type)
-@bot.inline_handler(lambda query: True, bot_vip=True) #! not admins for vips, also show smth for none vips
+@bot.inline_handler(lambda query: True) #! not admins for vips, also show smth for none vips
 def query_movies(inline_query: types.InlineQuery):
     queries = []
     id = 1
@@ -138,11 +138,13 @@ def query_movies(inline_query: types.InlineQuery):
     title = inline_query.query
     if inline_query.query == '':
         title = None
+    markup = None
     for i in sqldb.get_data(title):
         caption = constants.movie_data(i[0], i[1], i[9], i[4], i[2], i[3], i[8], i[5], i[6], i[7])
         markup = constants.media_markup(i[1], i[11], inline_query.from_user.id)
+        markup = constants.inline_markup(markup, 2)
         r = types.InlineQueryResultArticle(id, i[0], types.InputTextMessageContent(caption, parse_mode='HTML'),
-                                           description=i[11], thumbnail_url=i[10], reply_markup=constants.inline_markup(markup, 2)) #Todo: inline keyboard for dl
+                                           description=i[11], thumbnail_url=i[10], reply_markup=markup) #Todo: inline keyboard for dl
         queries.append(r)
         id += 1
     bot.answer_inline_query(inline_query.id, queries, 1)
@@ -150,6 +152,10 @@ def query_movies(inline_query: types.InlineQuery):
 
 @ bot.callback_query_handler(func=lambda call: call.data.split(' ')[0] == 'dl')
 def show_quals(call: types.CallbackQuery):
+    if not constants.IsVIP.check(call):
+        bot.answer_callback_query(call.id, ' this feature is only available for VIP members. Upgrade to VIP to unlock this feature and enjoy exclusive benefits!',
+                                  show_alert=True)
+        return
     _, _id, type = call.data.split(' ')
     if type == 'movie':
         movie = sqldb.get_movie_quals(_id)
