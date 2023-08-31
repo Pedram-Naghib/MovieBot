@@ -7,7 +7,7 @@ from dotenv import load_dotenv, find_dotenv
 load_dotenv(find_dotenv())
 
 
-TOKEN = os.environ['TTBotToken']
+TOKEN = os.environ['BotToken']
 state_storage = StateMemoryStorage()
 bot = TeleBot(TOKEN, parse_mode='HTML', state_storage=state_storage) #, use_class_middlewares=True
 
