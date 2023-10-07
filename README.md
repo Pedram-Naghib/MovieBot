@@ -40,8 +40,8 @@ Run the Bot:
     *   /register: Register new movies or series and add encode file IDs to the database.
     *   /cd: Add disc quality files to the database.
     *   /extra: Add additional content related to series/movies to the database.
-    *   rss: Edit RSS feeds for the latest movie and series updates.
-    *   del: Delete entries from the database.
+    *   /rss: Edit RSS feeds for the latest movie and series updates.
+    *   /del: Delete entries from the database.
 
 ## Contributing
 
