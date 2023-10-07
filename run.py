@@ -1,5 +1,5 @@
 from loguru import logger
-from src import server, bot
+from src import bot#, server
 import os
 
 

@@ -35,10 +35,19 @@ def keyboard(keys, row_width=3, resize_keyboard=True):
 keys = SimpleNamespace(
     cancel="/cancel",
     done="/done",
+    ok="/ok",
+    finish="/finish",
+    award="🏅جشنواره",
+    contact="📞 تماس با ما",
+    update="🔄 به روز رسانی",
+    vip="⭐️ خرید اشتراک",
 )
 keyboards = SimpleNamespace(
     cancel=keyboard([keys.cancel]),
     done=keyboard([keys.done]),
+    ok=keyboard([keys.ok]),
+    finish=keyboard([keys.finish]),
+    home=keyboard([keys.award, keys.contact, keys.update, keys.vip]),
 )
 # meme=keyboard([keys.meme]))
 
@@ -100,13 +109,37 @@ def clean_folder(msg_id=None):
 
 
 def echo(msg):
-    pass
+    welcome =  """
+✨ به Cinema Dreaming خوش اومدید.
+
+▪️ با تهیهٔ اشتراک از ربات ما، آرشیوی کامل از فیلم‌‌های مهم تاریخ سینما، جشنواره‌های بزرگ دنیا و آثار کمتردیده‌شده در اختیارتون قرار می‌گیره.
+
+⚪️ @CinemDreaming
+"""
+    bot.send_message(msg.chat.id, welcome, reply_markup=keyboards.home)
 
 
 help = '''
 
 '''
 
+del_help = """Correct use is /del value. value can be one of below:
+
+cd: to delete from disc table.
+extra: to delete from extra table.
+episode: to delete a series epsoide.
+file: to delete a movie file.
+
+example: /del file
+"""
+
+del_step1 = """
+Send ImdbID and name of the file to be deleted in 2 lines. example:
+
+tt13845660
+WEB-DL 1080p HMAX playWEB
+(if it is series write season and episode number in S01.E05 format)
+"""
 
 def movie_data(title, _id, rating, runtime, year, genre, plot, dirs, writers, actors):
     rate, voters = rating.split(' ')
@@ -151,6 +184,12 @@ class MyStates(StatesGroup):
     series = State()
     movie = State()
     file = State()
+    contact = State()
+    award = State()
+    cd_extra = State()
+    cd_extra_confirm = State()
+    delete = State()
+    del_conf = State()
 
 
 bot.add_custom_filter(custom_filters.StateFilter(bot))
@@ -158,27 +197,53 @@ bot.add_custom_filter(custom_filters.StateFilter(bot))
     
     
 def is_channel_member(user_id):
-    try:
-        join = bot.get_chat_member(-1001752415662, int(user_id))
-    except Exception as e:
-        if "user not found" in str(e):
-            return False
+    joined_all = False
+    for channel in [-1001461305849, -1001914164671]:
+        try:
+            join = bot.get_chat_member(channel, int(user_id))
+        except Exception as e:
+            if "user not found" in str(e):
+                return False
+            elif "chat not found" in str(e):
+                return bot.send_message(247768888, '💩 Bot is not admin in the channel!')
 
-    if (join.status == "kicked") or (join.status == "left"):
-        return False
-    return True
+        if (join.status == "kicked") or (join.status == "left"):
+            return False
+        else:
+            joined_all = True
+    return joined_all
 
 
 USER_DATA = {}
 
 
-def media_markup(movieid, type, userid):
-    markup = {'📥 Download': f'dl {movieid} {type}'}
+def media_markup(movieid, type, userid, cd_extra):
+    word = 'dl' if type == 'movie' else 'se'
+        
+    markup = {'📥 Encodes': f'{word} {movieid} {type}'}
+    if cd_extra[0]:
+        markup['💿 Disc'] = f'dl {movieid} cd'
+    if cd_extra[1]:
+        markup['🗂 Extra'] = f'dl {movieid} extra'
     if userid in ADMINS:
-        markup['📝 Edit'], markup['🗑 Del Files'] = f'ed {movieid} {type}', f'delf {movieid} {type}'
-        markup['🗑 Del All'] = f'dela {movieid} {type}'
+        markup['🗑 Delete'] = f'🗑 {movieid} {type}'
     return markup
 
+
+def season_markup(_id, seasons):
+    markup = {}
+    for i in seasons:
+        markup[f'📂 S{i[0]}'] = f'season {i[0]} {_id}'
+    markup[f'⬅️ Back'] = f'back-media series {_id}'
+    return markup
+
+
+def ep_markup(_id, season, eps):
+    markup = {}
+    for i in eps:
+        markup[f'📂 E{i[0]}'] = f'dl {season}.{i[0]} {_id}'
+    markup[f'⬅️ Back'] = f'b-s {_id}'
+    return markup
 
 #* -------------------------------------------------------------------------------------------------------------
 #* custom filters

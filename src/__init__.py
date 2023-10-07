@@ -10,6 +10,7 @@ load_dotenv(find_dotenv())
 TOKEN = os.environ['BotToken']
 state_storage = StateMemoryStorage()
 bot = TeleBot(TOKEN, parse_mode='HTML', state_storage=state_storage) #, use_class_middlewares=True
+bot.delete_webhook()
 
 server = Flask(__name__)
 
@@ -36,4 +37,4 @@ def add_vary_header(response):
     return response
 
 
-from src import constants, responses, sqldb, register
+from src import constants, responses, sqldb, register, bottuns
