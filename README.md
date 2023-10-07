@@ -29,7 +29,7 @@ git clone https://github.com/yourusername/movie-file-manager-bot.git
 3. Configure the Bot:
 
     * Create a Telegram bot using the BotFather on Telegram.
-    * Configure your Telegram Bot Token in the config.py file.
+    * Configure your Telegram Bot Token and [OMBD API](https://www.omdbapi.com/) in the [variables.env](variables.env) file.
 
 Run the Bot:
 
