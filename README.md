@@ -28,19 +28,20 @@ git clone https://github.com/yourusername/movie-file-manager-bot.git
 
 3. Configure the Bot:
 
-*   Create a Telegram bot using the BotFather on Telegram.
-*   Configure your Telegram Bot Token in the config.py file.
+    * Create a Telegram bot using the BotFather on Telegram.
+    * Configure your Telegram Bot Token in the config.py file.
 
 Run the Bot:
 
 ```python main.py```
 
 5. Commands:
-*   /register: Register new movies or series and add encode file IDs to the database.
-*   /cd: Add disc quality files to the database.
-*   /extra: Add additional content related to series/movies to the database.
-*   rss: Edit RSS feeds for the latest movie and series updates.
-*   del: Delete entries from the database.
+
+    *   /register: Register new movies or series and add encode file IDs to the database.
+    *   /cd: Add disc quality files to the database.
+    *   /extra: Add additional content related to series/movies to the database.
+    *   rss: Edit RSS feeds for the latest movie and series updates.
+    *   del: Delete entries from the database.
 
 ## Contributing
 
